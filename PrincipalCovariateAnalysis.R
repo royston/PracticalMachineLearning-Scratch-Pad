@@ -30,3 +30,4 @@ prComp <- prcomp(log10(spam[,-58]+1))
 plot(prComp$x[,1],prComp$x[,2], col=typeColor)
 
 #possible to do pass in "pca" as an argument to the train and predict functions to have pca done along with the training/prediction process
+
