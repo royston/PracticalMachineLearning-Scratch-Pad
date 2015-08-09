@@ -24,3 +24,15 @@ head(predict(dummies, newdata=training))
 #2. Removing zero covariates - variables that have very low variability. 
 #   eg, all subjects are MALE
 nsv <- nearZeroVar(x = training, saveMetrics = TRUE) # shows you a table with variables and metrics that measure variability
+
+
+#3. SPline basis:
+# WHen doing linear regression, you might need to fit curvy lines instead of linear lines through data
+#   - need polynomial variable out of first degree variables
+library(splines)
+bsBasis <- bs(training$age, df=3)
+bsBasis
+
+lm1 <- lm(wage ~ bsBasis, data=training)
+plot(training$age, training$wage, pch=19, cex=.5)
+points(training$age, predict(lm1, newdata=training), col="red", pch=19, cex=0.5)
