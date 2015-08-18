@@ -36,3 +36,7 @@ bsBasis
 lm1 <- lm(wage ~ bsBasis, data=training)
 plot(training$age, training$wage, pch=19, cex=.5)
 points(training$age, predict(lm1, newdata=training), col="red", pch=19, cex=0.5)
+
+
+#Notes:
+#Before applying an algo, google "feature extraction for [data type]" - find out the best way to extract features for different data types
