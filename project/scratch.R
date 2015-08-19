@@ -13,14 +13,17 @@ training <- training[-nsv]
 
 #extract the numeric cols
 numericCols <- training[sapply(training, is.numeric)]
-corrMatrix <- cor(numericCols, use = "pairwise.complete.obs")
-highCorrMatrix <- findCorrelation(x = corrMatrix, cutoff = .99, verbose = TRUE)
+corrMatrix <- cor(numericCols, use = "na.or.complete")
+highCorrMatrix <- findCorrelation(x = corrMatrix, cutoff = .75)
+
+training <- training[,-highCorrMatrix]
+summary(training)
 
 
 #remove cols that are duplicated - verify that cvtd_timestamp is duplicate
 
-cor(numericCols[,1:5])
-
 #notice a bunch of cols that have NA. we need to impute the data based on similar rows. the k nearest neighbors algo does this for us and is part of the caret package
-preProcObj <- preProcess(x=numericCols, method="knnImpute")
-preProcObj$data
+preProcObj <- preProcess(x=numericCols, method=c("knnImpute", "pca"))
+
+modFit <- train(classe ~ ., x = training, preProcess = preProcObj, method = "rf")
+
